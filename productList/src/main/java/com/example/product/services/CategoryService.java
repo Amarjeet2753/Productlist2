@@ -40,6 +40,7 @@ public class CategoryService {
         Category category =categoryRepository.findById(id).orElseThrow(()-> new RuntimeException("invalid category id"));
         categoryRepository.deleteById(id);
         return "Category : "+category.getName()+" deleted Successfuly";
+//        return "Category  deleted Successfuly";
     }
 
 
