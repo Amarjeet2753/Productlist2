@@ -3,6 +3,7 @@ package com.example.product.controller;
 import com.example.product.dto.CategoryDTO;
 import com.example.product.exceptions.CategoryAlreadyExistException;
 import com.example.product.services.CategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+@Tag(
+        name = "Category service CRUD Rest API",
+        description = "Create read update and delete operation for Category API"
+)
 
 @RestController
 
