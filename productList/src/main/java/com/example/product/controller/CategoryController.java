@@ -1,6 +1,7 @@
 package com.example.product.controller;
 
 import com.example.product.dto.CategoryDTO;
+import com.example.product.exceptions.CategoryAlreadyExistException;
 import com.example.product.services.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -22,8 +23,18 @@ public class CategoryController {
 //@Autowired
  private CategoryService categoryService;
     @PostMapping
-    public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO categoryDTO){
-     return  new ResponseEntity<>(categoryService.createCategory(categoryDTO) , HttpStatus.CREATED);
+//    public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO categoryDTO){
+    public ResponseEntity<?> createCategory(@RequestBody CategoryDTO categoryDTO){
+
+//        try{
+            CategoryDTO savedCat = categoryService.createCategory(categoryDTO);
+            return  ResponseEntity.status(HttpStatus.CREATED).body(savedCat);
+//        }catch (CategoryAlreadyExistException e){
+//            return  ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+//
+//        }
+
+//     return  new ResponseEntity<>(categoryService.createCategory(categoryDTO) , HttpStatus.CREATED);
 
     }
 

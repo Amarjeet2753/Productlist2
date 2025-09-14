@@ -1,0 +1,46 @@
+package com.example.product.exceptions;
+
+import com.example.product.dto.ExceptionResponseDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+
+import java.time.LocalDateTime;
+
+@ControllerAdvice
+public class GlobalException {
+
+    @ExceptionHandler(CategoryAlreadyExistException.class)
+    public ResponseEntity<ExceptionResponseDTO> categoryAlreadyExistException(CategoryAlreadyExistException ex , WebRequest webRequest){
+        ExceptionResponseDTO exceptionResponseDTO =  new ExceptionResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.CONFLICT,
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return  ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionResponseDTO);
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ExceptionResponseDTO> categoryAlreadyExistException(CategoryNotFoundException ex , WebRequest webRequest){
+        ExceptionResponseDTO exceptionResponseDTO =  new ExceptionResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.NOT_FOUND,
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponseDTO);
+    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionResponseDTO> categoryAlreadyExistException(Exception ex , WebRequest webRequest){
+        ExceptionResponseDTO exceptionResponseDTO =  new ExceptionResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponseDTO);
+    }
+}
