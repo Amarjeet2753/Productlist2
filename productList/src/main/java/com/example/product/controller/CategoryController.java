@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public class CategoryController {
     //create category
 //@Autowired
  private CategoryService categoryService;
+
+ @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
 //    public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO categoryDTO){
     public ResponseEntity<?> createCategory(@RequestBody CategoryDTO categoryDTO){
@@ -58,6 +61,7 @@ public class CategoryController {
     }
 
 //    delete
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public String deleteCategory(@PathVariable Long id){
         return categoryService.deleteCategory(id);

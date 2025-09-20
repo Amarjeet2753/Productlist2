@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class ProductController {
             responseCode = "201",
             description = "CREATED"
     )
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @PostMapping
     public ProductDTO createProduct(@RequestBody ProductDTO productDTO){
          return productService.createProduct(productDTO);
@@ -43,7 +45,6 @@ public class ProductController {
             description = "Product REST API Fetch all product "
     )
     @GetMapping
-
     public List<ProductDTO> getAllProcuct(){
         return productService.getAllProduct();
     }
@@ -60,6 +61,7 @@ public class ProductController {
     }
 
     // delete
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @Operation(
             summary = "Delete product by id",
             description = "Product REST API delete  product by id"
@@ -75,6 +77,7 @@ public class ProductController {
             summary = "Update product by id",
             description = "Product REST API Update product by id"
     )
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @PutMapping("/{id}")
 
     public ProductDTO update(@RequestBody ProductDTO productDTO , @PathVariable Long id){
