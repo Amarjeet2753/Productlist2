@@ -1,0 +1,26 @@
+package com.example.product.controller;
+
+
+import com.example.product.entity.User;
+import com.example.product.services.MyUserDetailService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@AllArgsConstructor
+@RequestMapping("/user")
+public class UserController {
+
+    @Autowired
+    private MyUserDetailService service;
+
+    @PostMapping("/register")
+    public User registerUser(@RequestBody User user){
+        return  service.creatUser(user);
+    }
+
+}
