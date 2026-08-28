@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @OpenAPIDefinition(
 		info = @Info(
-				title = "Product service api documentatio",
+				title = "Product service api documentation",
 				description = "Product api",
 				version = "v1",
 				contact = @Contact(

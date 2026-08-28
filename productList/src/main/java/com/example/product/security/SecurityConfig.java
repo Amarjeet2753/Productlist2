@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -29,14 +31,20 @@ public class SecurityConfig {
     @Autowired
     public UserDetailsService userDetailsService;
 
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
         http.csrf(csrf->csrf.disable()).authorizeHttpRequests(request ->{
-            request.requestMatchers( "/user/register").permitAll();
+            request.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
+            request.requestMatchers( "api/user/register","api/user/login").permitAll();
             request.requestMatchers(HttpMethod.GET, "/api/**").permitAll();
             request.anyRequest().authenticated();
-        }).authenticationProvider(authenticationProvider()).httpBasic(Customizer.withDefaults());
-
+        }).authenticationProvider(authenticationProvider())
+           .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+          .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+//                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 

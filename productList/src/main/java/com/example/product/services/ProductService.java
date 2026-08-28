@@ -22,8 +22,8 @@ public class ProductService {
 //    create product
     public ProductDTO createProduct(ProductDTO productDTO ){
 
-        Category category = categoryRepository.findById(productDTO.getCategory_id()).orElseThrow(()->
-                new CategoryNotFoundException("category " +productDTO.getCategory_id()+" not found")
+        Category category = categoryRepository.findById(productDTO.getCategoryId()).orElseThrow(()->
+                new CategoryNotFoundException("category " +productDTO.getCategoryId()+" not found")
         );
 
         Product product = ProductMapper.toProductEntity(productDTO,category);
@@ -54,7 +54,7 @@ public class ProductService {
 
     public ProductDTO updateProduct(ProductDTO productDTO, Long id){
         Product product  = productRepository.findById(id).orElseThrow(()->new RuntimeException("Product not found"));
-        Category category = categoryRepository.findById(productDTO.getCategory_id()).orElseThrow(()->new RuntimeException("Category not found"));
+        Category category = categoryRepository.findById(productDTO.getCategoryId()).orElseThrow(()->new RuntimeException("Category not found"));
 
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());

@@ -15,12 +15,10 @@ public class UserPrincipal implements UserDetails {
     public  UserPrincipal(User user){
         this.user =user;
     }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_SELLER"));
     }
-
     @Override
     public String getPassword() {
         return user.getPassword();
